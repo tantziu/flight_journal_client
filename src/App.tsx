@@ -1,9 +1,9 @@
-import { Flights } from './features/flights/Flights';
+import FlightsPage from './features/flights/FlightsPage';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-        <Flights />
+        <FlightsPage />
     </div>
   );
 }
