@@ -1,44 +1,84 @@
-const AddFlight = () => {
+import React, { useState } from "react";
+import { useAppDispatch } from "../../../app/hooks";
+import { IFlight, flightAdded } from "../flightsSlice";
+
+type AddFlightProps = {
+    onFlightAdded:(flight:IFlight | any) => void
+}
+
+const AddFlight = (/*{onFlightAdded}:AddFlightProps*/) => {
+    const [name, setName] = useState('')
+    const [destination, setDestination] = useState('')
+    const [origin, setOrigin] = useState('')
+    const [date, setDate] = useState('')
+    // const [flight, setFlight] = useState<IFlight | {}>()
+    const dispatch = useAppDispatch()
+    
+    const onNameChanged = (e:React.FormEvent<HTMLInputElement>) => 
+        setName((e.target as HTMLInputElement).value)
+    const onDestinationtChanged = (e:React.FormEvent<HTMLInputElement>) => 
+        setDestination((e.target as HTMLInputElement).value)
+    const onOriginChanged = (e:React.FormEvent<HTMLInputElement>) => 
+        setOrigin((e.target as HTMLInputElement).value)
+    const onDateChanged = (e:React.FormEvent<HTMLInputElement>) => 
+        setDate((e.target as HTMLInputElement).value)
+
+    const onSaveFlightClicked = /*async*/ () => {
+        const newFlight:IFlight = {
+            id: Math.random(),
+            name: name,
+            destination: destination,
+            origin: origin,
+            date: date
+        }
+        dispatch(flightAdded(newFlight))
+        setName('')
+        setDestination('')
+        setOrigin('')
+        setDate('')
+    }
+
     return (
         <div className='addFlight'>
             <h2>Add new flight</h2>
             <form>
-                <label htmlFor="flight">Flight Number:</label>
+                <label htmlFor="flightName">Flight Name:</label>
                 <input
                     type="text"
-                    id="flight"
-                    name="flight"
-                    // value={flight}
-                    // onChange={onFlightChanged}
+                    id="flightName"
+                    name="flightName"
+                    placeholder='LX1498'
+                    value={name}
+                    onChange={onNameChanged}
                 />
-                <label htmlFor="flight">Destination:</label>
+                <label htmlFor="flightDestination">Destination:</label>
                 <input
                     type="text"
-                    id="flight"
-                    name="flight"
-                    // value={flight}
-                    // onChange={onFlightChanged}
+                    id="flightDestination"
+                    name="flightDestination"
+                    value={destination}
+                    onChange={onDestinationtChanged}
                 />
-                <label htmlFor="flight">From:</label>
+                <label htmlFor="flightOrigin">From:</label>
                 <input
                     type="text"
-                    id="flight"
-                    name="flight"
-                    // value={flight}
-                    // onChange={onFlightChanged}
+                    id="flightOrigin"
+                    name="flightOrigin"
+                    value={origin}
+                    onChange={onOriginChanged}
                 />
-                <label htmlFor="flight">Date:</label>
+                <label htmlFor="flightDate">Date:</label>
                 <input
                     type="text"
-                    id="flight"
-                    name="flight"
-                    // value={flight}
-                    // onChange={onFlightChanged}
+                    id="fligflightDateht"
+                    name="flightDate"
+                    value={date}
+                    onChange={onDateChanged}
                 />
             </form>
 
-            <button type="button" /*onClick={onSearchFlightClicked}*/ disabled={false}>
-                Add to Table
+            <button type="button" onClick={onSaveFlightClicked} disabled={false}>
+                Save flight
             </button>
         </div>     
     )

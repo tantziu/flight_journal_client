@@ -8,15 +8,15 @@ import {fetchAllFlights} from '../../api/client';
 //   return response.flight
 // })
 const dummyData:IFlight[] = [
-  {id: 1,number: "LX1498", to: "ZRH", from: "PRG", aircraft: "", date:"09.04.2020", duration:80},
-  {id: 2,number: "LX2098", to: "PRG", from: "ZRH", aircraft: "", date:"13.04.2020", duration:95}
+  {id: 1,name: "LX1498", destination: "ZRH", origin: "PRG", aircraft: "", date:"09.04.2020", duration:80},
+  {id: 2,name: "LX2098", destination: "PRG", origin: "ZRH", aircraft: "", date:"13.04.2020", duration:95}
 ]
 
 export interface IFlight {
   id: number,
-  number?: string,
-  to?: string,
-  from?: string,
+  name?: string,
+  destination?: string,
+  origin?: string,
   aircraft?: string,
   date?:string,
   duration?:number
@@ -32,7 +32,9 @@ const initialState: FlightsState = {
     flights: dummyData,
     loading: false,
     hasErrors: false
-  };
+};
+
+// export const addNewFlight = (newFlight:IFlight) => console.log("Slice flight:", newFlight);
 
 export const flightsSlice = createSlice({
   name: 'flights',
@@ -50,6 +52,9 @@ export const flightsSlice = createSlice({
     getFlightsFailure: state => {
       state.loading = false
       state.hasErrors = false
+    },
+    flightAdded: (state, action) => {
+      state.flights.push(action.payload)
     }
     
   },
@@ -60,7 +65,7 @@ export const flightsSlice = createSlice({
   },
 });
   
-export const {getFlights, getFlightsSuccess, getFlightsFailure} = flightsSlice.actions
+export const {getFlights, getFlightsSuccess, getFlightsFailure, flightAdded} = flightsSlice.actions
 export const flightsSelector = (state:RootState) => state.flights
 
 export default flightsSlice.reducer;
