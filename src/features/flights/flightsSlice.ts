@@ -41,20 +41,28 @@ export const flightsSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    getFlights: state => {
-      state.loading = true
-    },
-    getFlightsSuccess: (state, {payload}) => {
-      state.flights = payload
-      state.loading = false
-      state.hasErrors = false
-    },
-    getFlightsFailure: state => {
-      state.loading = false
-      state.hasErrors = false
-    },
+    // getFlights: state => {
+    //   state.loading = true
+    // },
+    // getFlightsSuccess: (state, {payload}) => {
+    //   state.flights = payload
+    //   state.loading = false
+    //   state.hasErrors = false
+    // },
+    // getFlightsFailure: state => {
+    //   state.loading = false
+    //   state.hasErrors = false
+    // },
     flightAdded: (state, action) => {
       state.flights.push(action.payload)
+    },
+    flightRemoved: (state, action) => {
+      const updatedFLights:IFlight[] = state.flights.filter(
+        flight => flight.id != action.payload)
+        return {
+          ...state,
+          flights: updatedFLights
+        }
     }
     
   },
@@ -65,7 +73,7 @@ export const flightsSlice = createSlice({
   },
 });
   
-export const {getFlights, getFlightsSuccess, getFlightsFailure, flightAdded} = flightsSlice.actions
+export const {flightAdded, flightRemoved} = flightsSlice.actions
 export const flightsSelector = (state:RootState) => state.flights
 
 export default flightsSlice.reducer;
