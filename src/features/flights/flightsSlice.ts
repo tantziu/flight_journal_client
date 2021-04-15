@@ -53,16 +53,26 @@ export const flightsSlice = createSlice({
     //   state.loading = false
     //   state.hasErrors = false
     // },
-    flightAdded: (state, action) => {
+    flightAdded(state, action) {
       state.flights.push(action.payload)
     },
-    flightRemoved: (state, action) => {
+    flightRemoved(state, action) {
       const updatedFLights:IFlight[] = state.flights.filter(
         flight => flight.id != action.payload)
         return {
           ...state,
           flights: updatedFLights
         }
+    },
+    flightUpdated(state, action) {
+      const {id, name, destination, origin, date} = action.payload;
+      const existingFlight = state.flights.find(flight => flight.id === id)
+      if (existingFlight) {
+        existingFlight.name = name;
+        existingFlight.destination = destination;
+        existingFlight.origin = origin;
+        existingFlight.date = date;
+      }
     }
     
   },
@@ -73,13 +83,16 @@ export const flightsSlice = createSlice({
   },
 });
   
-export const {flightAdded, flightRemoved} = flightsSlice.actions
+export const {flightAdded, flightRemoved, flightUpdated} = flightsSlice.actions
+
 export const flightsSelector = (state:RootState) => state.flights
+export const selectFlightById = (state, flightId) => 
+  state.flights.flights.find(flight => flight.id === flightId) 
+
+// export const fetchFlights = createAsyncThunk('flights/fetchFlights', async () => {
+//   const response = await fetchAllFlights()
+//   // return response.flights  
+// })
 
 export default flightsSlice.reducer;
-
-export const fetchFlights = createAsyncThunk('flights/fetchFlights', async () => {
-  const response = await fetchAllFlights()
-  // return response.flights  
-})
   

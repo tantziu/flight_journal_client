@@ -12,18 +12,6 @@ import { flightsSelector } from './flightsSlice';
 const FlightsPage = () => {
 
   const { flights, loading, hasErrors} = useAppSelector(flightsSelector)
-  // const dispatch = useAppDispatch()
-
-  // const [flight, setFlight] = useState('');
-
-  // const onFlightChanged = (e:React.FormEvent<HTMLInputElement>):void => 
-  //   setFlight((e.target as HTMLInputElement).value);
-
-  // const onSearchFlightClicked = () => {
-  //   console.log("search")
-  //   dispatch(fetchFlights())
-  // }
-
 
   console.log("Flights:", flights)
   return (

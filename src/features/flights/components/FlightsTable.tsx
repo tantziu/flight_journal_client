@@ -1,5 +1,6 @@
 import {IFlight, flightRemoved} from '../flightsSlice';
 import { useAppDispatch } from "../../../app/hooks";
+import { Link } from "react-router-dom";
 
 type FlightsTableProps = {
     flights: IFlight[]
@@ -32,12 +33,13 @@ const FlightsTable = ({flights}:FlightsTableProps) => {
                     <span style={{width:'15%'}}>{flight.destination}</span>
                     <span style={{width:'20%'}}>{flight.date}</span>
                     <span style={{width:'15%'}}>
-                        <button
+                        {/* <button
                             // onClick={() => onDismiss(item.objectID)}
                             className="button-inline"
                         > 
                             More
-                        </button>
+                        </button> */}
+                        <Link to={`/flights/${flight.id}`} className='button'>More</Link>
                     </span>
                     <span style={{width:'20%'}}>
                         <button
