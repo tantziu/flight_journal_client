@@ -36,7 +36,6 @@ const EditFlightDetails = ({match}) => {
             date
 
         }))
-        // investigate more
         history.push(`flights/${flightId}`);
 
     }

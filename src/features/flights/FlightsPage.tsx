@@ -16,12 +16,9 @@ const FlightsPage = () => {
   console.log("Flights:", flights)
   return (
     <section className="FlightsPage">
-      <h1>Flight Journal</h1>
       <AddFlight/>
       <FlightsTable flights={flights}/>
     </section>
-
-    
   );
 }
 
