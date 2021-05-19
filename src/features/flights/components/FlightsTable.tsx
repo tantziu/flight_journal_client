@@ -1,4 +1,4 @@
-import {IFlight, flightRemoved} from '../flightsSlice';
+import {IFlight, deleteFlight} from '../flightsSlice';
 import { useAppDispatch } from "../../../app/hooks";
 import { Link } from "react-router-dom";
 
@@ -9,8 +9,10 @@ type FlightsTableProps = {
 const FlightsTable = ({flights}:FlightsTableProps) => {
     const dispatch = useAppDispatch()
 
-    const onDismiss = (id:number) => {
-        dispatch(flightRemoved(id))
+    const onDismiss = (id?:string) => {
+        if (id != undefined) {
+            dispatch(deleteFlight(id))
+        }    
     }
 
     return (
@@ -27,7 +29,7 @@ const FlightsTable = ({flights}:FlightsTableProps) => {
             
             
             {flights.map(flight => 
-                <div key={flight.id} className="table-row">
+                <div key={flight._id} className="table-row">
                     <span style={{width:'15%'}}>{flight.name}</span>
                     <span style={{width:'15%'}}>{flight.origin}</span>
                     <span style={{width:'15%'}}>{flight.destination}</span>
@@ -39,11 +41,11 @@ const FlightsTable = ({flights}:FlightsTableProps) => {
                         > 
                             More
                         </button> */}
-                        <Link to={`/flights/${flight.id}`} className='button'>More</Link>
+                        <Link to={`/flights/${flight._id}`} className='button'>More</Link>
                     </span>
                     <span style={{width:'20%'}}>
                         <button
-                            onClick={() => onDismiss(flight.id)}
+                            onClick={() => onDismiss(flight._id)}
                             className="button-inline"
                         > 
                             Dismiss

@@ -1,19 +1,29 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks"
-import {flightUpdated, selectFlightById, IFlight} from '../flightsSlice'
-import React, { useState } from "react";
+import {editFlight, fetchSingleFlight, flightsSelector} from '../flightsSlice'
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 const EditFlightDetails = ({match}) => {
-    const {flightId} = match.params;
-    const flight = useAppSelector(state => selectFlightById(state, parseFloat(flightId)));
+    // const {flightId} = match.params;
+    const dispatch = useAppDispatch();
+    const history = useHistory();
+    // const flight = useAppSelector(singleFlightSelector);
+    const {flight, status} = useAppSelector(flightsSelector)
+
+    // useEffect(() => {
+    //     if (status === 'updated') {
+    //         const {flightId} = match.params;
+    //         dispatch(fetchSingleFlight(flightId))
+    //     }
+        
+    // }, [dispatch, match])
 
     const [name, setName] = useState(flight.name)
     const [destination, setDestination] = useState(flight.destination)
     const [origin, setOrigin] = useState(flight.origin)
     const [date, setDate] = useState(flight.date)
 
-    const dispatch = useAppDispatch()
-    const history = useHistory();
+    
 
     const onNameChanged = (e:React.FormEvent<HTMLInputElement>) => 
         setName((e.target as HTMLInputElement).value)
@@ -26,17 +36,19 @@ const EditFlightDetails = ({match}) => {
 
     
 
+
     const onSaveFlightClicked = () => {
         if (name && destination && origin && date)
-        dispatch(flightUpdated({
-            id: parseFloat(flightId),
+        dispatch(editFlight({
+            _id: flight._id,
             name,
             destination,
             origin,
             date
 
         }))
-        history.push(`flights/${flightId}`);
+        history.push(`/flights/${flight._id}`);
+
 
     }
 
@@ -61,14 +73,6 @@ const EditFlightDetails = ({match}) => {
                     value={name}
                     onChange={onNameChanged}
                 />
-                <label htmlFor="flightDestination">Destination:</label>
-                <input
-                    type="text"
-                    id="flightDestination"
-                    name="flightDestination"
-                    value={destination}
-                    onChange={onDestinationtChanged}
-                />
                 <label htmlFor="flightOrigin">From:</label>
                 <input
                     type="text"
@@ -76,6 +80,14 @@ const EditFlightDetails = ({match}) => {
                     name="flightOrigin"
                     value={origin}
                     onChange={onOriginChanged}
+                />
+                <label htmlFor="flightDestination">Destination:</label>
+                <input
+                    type="text"
+                    id="flightDestination"
+                    name="flightDestination"
+                    value={destination}
+                    onChange={onDestinationtChanged}
                 />
                 <label htmlFor="flightDate">Date:</label>
                 <input

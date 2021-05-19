@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
-import { IFlight, flightAdded } from "../flightsSlice";
+import { IFlight, addNewFlight } from "../flightsSlice";
+import { useHistory } from "react-router-dom";
 
-type AddFlightProps = {
-    onFlightAdded:(flight:IFlight | any) => void
-}
+// type AddFlightProps = {
+//     onFlightAdded:(flight:IFlight | any) => void
+// }
 
 const AddFlight = (/*{onFlightAdded}:AddFlightProps*/) => {
     const [name, setName] = useState('')
@@ -13,6 +14,7 @@ const AddFlight = (/*{onFlightAdded}:AddFlightProps*/) => {
     const [date, setDate] = useState('')
     // const [flight, setFlight] = useState<IFlight | {}>()
     const dispatch = useAppDispatch()
+    const history = useHistory()
     
     const onNameChanged = (e:React.FormEvent<HTMLInputElement>) => 
         setName((e.target as HTMLInputElement).value)
@@ -25,17 +27,19 @@ const AddFlight = (/*{onFlightAdded}:AddFlightProps*/) => {
 
     const onSaveFlightClicked = /*async*/ () => {
         const newFlight:IFlight = {
-            id: Math.random(),
+            // _id: Math.random(),
             name: name,
             destination: destination,
             origin: origin,
             date: date
         }
-        dispatch(flightAdded(newFlight))
-        setName('')
-        setDestination('')
-        setOrigin('')
-        setDate('')
+        // dispatch(flightAdded(newFlight))
+        dispatch(addNewFlight(newFlight))
+        // setName('')
+        // setDestination('')
+        // setOrigin('')
+        // setDate('')
+        history.push('/')
     }
 
     return (

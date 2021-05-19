@@ -13,6 +13,9 @@ export const Navbar = () => {
                         {/* <Link to='/'>Statistics</Link> */}
                         <Link to='/'>About</Link>
                     </div>
+                    <Link to={`/addFlight`} className="button">
+                        Add Flight
+                    </Link>
                 </div>
             </section>
         </nav>

@@ -1,15 +1,23 @@
-import { useAppDispatch, useAppSelector } from "../../../app/hooks"
-import {flightUpdated, selectFlightById} from '../flightsSlice'
+import {useAppSelector } from "../../../app/hooks"
+import {fetchSingleFlight, flightsSelector} from '../flightsSlice'
+import { useAppDispatch } from "../../../app/hooks";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 
 const FlightDetails = ({match}) => {
-    const dispatch = useAppDispatch()
-    const {flightId} = match.params;
-    const flight = useAppSelector(state => selectFlightById(state, parseFloat(flightId)));
+    const dispatch = useAppDispatch();
+    const {flight, status} = useAppSelector(flightsSelector); 
+
     // const flight = useAppSelector(state =>
     //     state.flights.flights.find(flight => flight.id === parseFloat(flightId))   
     // )
+
+    useEffect(() => {
+        const {flightId} = match.params;
+        dispatch(fetchSingleFlight(flightId))
+        
+    }, [dispatch, match])
 
     if (!flight) {
         return (
@@ -27,7 +35,7 @@ const FlightDetails = ({match}) => {
                 <p>To: {flight.destination}</p>
                 <p>Date: {flight.date}</p>
                 <p>Other info</p>
-                <Link to={`/editFlight/${flight.id}`} className="button">
+                <Link to={`/editFlight/${flight._id}`} className="button">
                     Edit Flight
                 </Link>
             </article>
